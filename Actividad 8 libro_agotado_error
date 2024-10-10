@@ -1,0 +1,7 @@
+from tiendalibros.modelo.libro_error import LibroError
+
+class LibroAgotadoError(LibroError):
+    pass
+def __init__(self, titulo, isbn):
+    # Defina metodo especial
+super().__init__(f"El libro con titulo {titulo} y isbn {isbn} está agotado.")
