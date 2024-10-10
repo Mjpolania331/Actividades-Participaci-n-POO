@@ -1,0 +1,16 @@
+class ItemCompra:
+    pass
+ class Libro:
+    def __init__(self, titulo, autor, precio, isbn):
+        self.titulo = titulo
+        self.autor = autor
+        self.precio = precio
+        self.isbn = isbn
+
+class ItemCompra:
+    def __init__(self, libro, cantidad):
+        self.libro = libro
+        self.cantidad = cantidad
+
+    def calcular_subtotal(self):
+        return self.cantidad * self.libro.precio
