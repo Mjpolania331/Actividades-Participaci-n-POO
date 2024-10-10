@@ -1,0 +1,11 @@
+from tiendalibros.modelo.libro_error import LibroError
+
+
+class LibroExistenteError(LibroError):
+
+    pass
+    # Defina metodo inicializador
+  def __init__(self, titulo, isbn):
+       
+    # Defina metodo especial
+     super().__init__(f"El libro con titulo {titulo} y isbn: {isbn} ya existe en el catálogo.")
