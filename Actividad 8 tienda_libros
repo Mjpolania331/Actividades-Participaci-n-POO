@@ -1,0 +1,43 @@
+class TiendaLibros:
+    pass
+class Libro_existente_error(LibroError):
+    def __init__(self, titulo, isbn):
+        super().__init__("El libro con titulo {titulo} y isbn: {isbn} ya existe en el catálogo.")
+    class LibroAgotadoError(LibroError):
+    def __init__(self, titulo, isbn):
+        super().__init__(f"El libro con titulo {titulo} y isbn {isbn} está agotado.")
+    
+class ExistenciasInsuficientesError(LibroError):
+    def __init__(self, titulo, isbn, cantidad_a_comprar, existencias):
+        super().__init__(f"El libro con titulo {titulo} y isbn {isbn} no tiene suficientes existencias para la compra: cantidad a comprar: {cantidad_a_comprar}, existencias: {existencias}")
+        self.cantidad_a_comprar = cantidad_a_comprar
+
+def adicionar_libro_a_catalogo(self, isbn, titulo, precio, existencias):
+        if isbn in self.catalogo:
+            raise LibroExistenteError(titulo, isbn)
+        libro = Libro(titulo, "Autor Desconocido", precio, isbn)
+        libro.existencias = existencias
+        self.catalogo[isbn] = libro
+        return libro
+
+ def agregar_libro_a_carrito(self, isbn, cantidad):
+        if isbn not in self.catalogo:
+            raise ValueError("El libro no está en el catálogo.")
+        libro = self.catalogo[isbn]
+        if libro.existencias == 0:
+            raise LibroAgotadoError(libro.titulo, libro.isbn)
+        if cantidad > libro.existencias:
+            raise ExistenciasInsuficientesError(libro.titulo, libro.isbn, cantidad, libro.existencias)
+        self.carrito.agregar_item(libro, cantidad)
+        libro.existencias -= cantidad
+
+    def retirar_item_de_carrito(self, isbn):
+        self.carrito.quitar_item(isbn)
+
+class TiendaLibros:
+    def __init__(self):
+        self.catalogo = {}
+        self.carrito = CarroCompras()
+    def retirar_item_de_carrito(self, isbn):
+        self.carrito.quitar_item(isbn)
+
