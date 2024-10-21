@@ -1,0 +1,46 @@
+from collections import Counter
+from typing import List
+
+direcciones_a_grados = {
+    "N": 0, "NNE": 22.5, "NE": 45, "ENE": 67.5, "E": 90,
+    "ESE": 112.5, "SE": 135, "SSE": 157.5, "S": 180,
+    "SSW": 202.5, "SW": 225, "WSW": 247.5, "W": 270,
+    "WNW": 292.5, "NW": 315, "NNW": 337.5}
+
+grados_a_direcciones = {v: k for k, v in direcciones_a_grados.items()}
+
+class DatosMeteorologicos:
+    def __init__(self, nombre_archivo: str):
+        self.nombre_archivo = nombre_archivo
+        self.temperaturas: List[float] = []
+        self.humedades: List[float] = []
+        self.presiones: List[float] = []
+        self.velocidades_viento: List[float] = []
+        self.direcciones_viento: List[str] = []
+
+    def procesar_datos(self) > None:
+    with open(self.nombre_archivo, 'r') as archivo:
+     for linea in archivo:
+         if linea.startswith("Estacion:"):
+         partes = linea.strip().split()
+            self.temperaturas.append(float(partes[9].strip(",")))
+            self.humedades.append(float(partes[11].strip(",")))
+            self.presiones.append(float(partes[13].strip(",")))
+            viento = partes[15].split(",")
+            self.velocidades_viento.append(float(viento[0]))                
+            self.direcciones_viento.append(viento[1])
+
+    def direccion_predominante_viento(self) -> str:
+        conteo_direcciones = Counter(self.direcciones_viento)
+        direccion_predominante = conteo_direcciones.most_common(1)[0][0]
+        return direccion_predominante
+
+    def mostrar_estadisticas(self) -> None:
+        temp_prom, humedad_prom, presion_prom, vel_viento_prom = self.calcular_promedios()
+        direccion_predom = self.direccion_predominante_viento()
+
+        print(f"Temperatura promedio: {temp_prom:.2f} °C")
+        print(f"Humedad promedio: {humedad_prom:.2f} %")
+        print(f"Presión promedio: {presion_prom:.2f} hPa")
+        print(f"Velocidad promedio del viento: {vel_viento_prom:.2f} km/h")
+        print(f"Dirección predominante del viento: {direccion_predominante_viento}")
